@@ -28,7 +28,7 @@
                         <div class="col-md-12 d-flex flex-column align-items-center">
                             <input type="submit" value="Login" class="rounded text-light p-2 fw-bold bg-pink-muda" style=" width: 50%;font-size: 1.4rem; border: none">
                         </div>
-                        <a href="register/1" class="text-end mt-3 color-putih" style="font-size: 14px">Create account?</a>
+                        <a href="register" class="text-end mt-3 color-putih" style="font-size: 14px">Create account?</a>
                     </div>
                 </form>
             </div>

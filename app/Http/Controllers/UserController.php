@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Produk;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {   
@@ -37,55 +40,120 @@ class UserController extends Controller
         return redirect()->back();
     }
 
-    // step-1
-    function ViewStep1(){
-        return view('register-page.step-1');
-    }
-
-    function step1(Request $request){
-
-        $request->session()->put('step1', $request->all());
-
-        return redirect('/register/2');
-    }
-    // step-2
-    
-    function ViewStep2(){
-        return view('register-page.step-2');
-    }
-
-    function step2(Request $request){
-
-        $request->session()->put('step2', $request->all());
-
-        return redirect('/register/3');
-    }
-
-    // step-3
-    function ViewStep3(){
-
-        return view('register-page.step-3');
-    }
-
-    function step3(Request $request){
-        $step1 = $request->session()->get('step1');
-        $step2 = $request->session()->get('step2');
-        $step3 = $request->all();
-
-        $data = array_merge($step1, $step2,$step3);
-        User::create($data);
-
-        $request->session()->forget(['step1', 'step2']);
-
+    function logout(){
+        
+        Auth::logout();
 
         return redirect('/login');
     }
+
     function ViewHome(){
-        
-        return view('pembeli.beranda');
+        $data['user'] = User::has('produk')->with('produk')->get();
+        $data['produk'] = Produk::with('user')->get();
+        return view('pembeli.beranda', $data);
     }
+    
+    function HomeProfile(){
+        $user = Auth::user()->id;
+        $data['profile'] = User::find($user);
+        return view('pembeli.profile',$data);
+    }
+
+    function ViewRegister(){
+        return view('register-page.register');
+    }
+
+    function Register(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => ['required'],
+            'email' => ['required', 'unique:users'],
+            'no_tlp' => ['required'],
+            'alamat' => ['required'],
+            'password' => ['required'],
+            'foto' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+        ]);
+
+        if ($validator->fails()) {
+            // Handle validation error
+        }
+
+        $fileName = '';
+        if ($request->file('foto')) {
+            $fileName = time().'.'.$request->file('foto')->getClientOriginalExtension();
+            $request->file('foto')->storeAs('user',$fileName);
+        }
+
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->no_tlp = $request->no_tlp;
+        $user->role = $request->role;
+        $user->alamat = $request->alamat;
+        $user->password = bcrypt($request->password);
+        $user->foto = $fileName;
+        $user->save();
+
+        return redirect('/login');
+    }
+
     function ViewAdmin(){
-        
-        return view('penjual.beranda');
+        $data['produk'] = Produk::all();
+        $data['jumlah'] = $data['produk']->count();
+        return view('penjual.beranda',$data);
+    }
+    function ViewProfile(){
+        $user = auth()->user()->id;
+        $data['profile'] = User::find($user);
+        return view('penjual.profile',$data);
+    }
+    function ChangeView(){
+        $data['profile'] = Auth::user();
+        return view('penjual.upgrade-user',$data);
+    }
+    function ChangeProfile(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => ['required'],
+            'email' => ['required'],
+            'no_tlp' => ['required'],
+            'alamat' => ['required'],
+            'password' => ['required'],
+            'foto' => ['required'],
+        ]);
+
+        if ($validator->fails()) {
+            // Handle validation error
+        }
+
+        $user = User::Where('id', $request->id)->first();
+
+        if ($request->hasFile('foto')) {
+            // Hapus foto lama jika ada
+            if ($user->foto) {
+                Storage::disk('public')->delete('user/' . $user->foto);
+            }
+
+            // Upload foto baru
+            $exfile = $request->file('foto')->getClientOriginalExtension();
+            $newFileName = time() . "." . $exfile;
+            $request->file('foto')->storeAs('user', $newFileName);
+            $fileName = $newFileName;
+        } else {
+            // Jika tidak ada foto baru, gunakan foto lama
+            $fileName = $user->foto;
+        }
+
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'no_tlp' => $request->no_tlp,
+            'role' => 'seller',
+            'alamat' => $request->alamat,
+            'password' => $request->password,
+            'foto' => $fileName,
+        ]);
+
+        return redirect('/profile');
     }
 }

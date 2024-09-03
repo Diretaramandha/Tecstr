@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Kategori;
+use App\Models\Produk;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -14,7 +16,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        // Produk::factory(5)->create();
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
@@ -26,17 +28,20 @@ class DatabaseSeeder extends Seeder
             'no_tlp' => '085720676261',
             'alamat' => 'jagawaras-Sentral',
             'role' => 'customer',
+            'foto' => '',
             'email' => 'direta@gmail.com',
             'password' => bcrypt('reta123')
         ]);
 
         User::create([
-            'name' => 'Direta',
+            'name' => 'Direta Ramandha P',
             'no_tlp' => '085720676261',
             'alamat' => 'jagawaras-Sentral',
             'role' => 'seller',
+            'foto' => '',
             'email' => 'admin@gmail.com',
             'password' => bcrypt('reta123')
         ]);
+
     }
 }
