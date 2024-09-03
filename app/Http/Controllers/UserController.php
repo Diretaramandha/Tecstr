@@ -59,6 +59,56 @@ class UserController extends Controller
         return view('pembeli.profile',$data);
     }
 
+    function UpgradeView(){
+        $data['profile'] = Auth::user();
+        return view('pembeli.upgrade-user',$data);
+    }
+    function UpgradeProfile(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => ['required'],
+            'email' => ['required'],
+            'no_tlp' => ['required'],
+            'alamat' => ['required'],
+            'password' => ['required'],
+            'foto' => ['required'],
+        ]);
+
+        if ($validator->fails()) {
+            // Handle validation error
+        }
+
+        $user = User::Where('id', $request->id)->first();
+
+        if ($request->hasFile('foto')) {
+            // Hapus foto lama jika ada
+            if ($user->foto) {
+                Storage::disk('public')->delete('user/' . $user->foto);
+            }
+
+            // Upload foto baru
+            $exfile = $request->file('foto')->getClientOriginalExtension();
+            $newFileName = time() . "." . $exfile;
+            $request->file('foto')->storeAs('user', $newFileName);
+            $fileName = $newFileName;
+        } else {
+            // Jika tidak ada foto baru, gunakan foto lama
+            $fileName = $user->foto;
+        }
+
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'no_tlp' => $request->no_tlp,
+            'role' => 'seller',
+            'alamat' => $request->alamat,
+            'password' => $request->password,
+            'foto' => $fileName,
+        ]);
+
+        return redirect('/profile');
+    }
+
     function ViewRegister(){
         return view('register-page.register');
     }

@@ -113,4 +113,10 @@ class ProdukController extends Controller
 
        return redirect('/product');
     }
+
+    function DetailProduk($id){
+        $data['produk'] = Produk::Where('id',$id)->first();
+        return view('pembeli.detail-produk',$data);
+
+    }
 }

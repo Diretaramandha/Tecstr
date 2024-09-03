@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\keranjang;
 use App\Models\Produk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class keranjangController extends Controller
 {
@@ -12,18 +13,35 @@ class keranjangController extends Controller
     {
         $data['keranjang'] = keranjang::with('produk')->get();
         $data['jumlah'] = $data['keranjang']->count();
+        // dd($data['keranjang']);
         return view('pembeli.keranjang',$data);
     }
 
     public function CreateKeranjang($id)
     {   
-        keranjang::create([
+        // keranjang::create([
+        //     'id_user' => auth()->user()->id,
+        //     'id_produk' => $id,
+        //     'jumlah' => 1,
+        // ]);
+    keranjang::updateOrInsert(
+        [
             'id_user' => auth()->user()->id,
             'id_produk' => $id,
-            'jumlah' => 1,
-        ]);
+        ],
+        [
+            'jumlah' => DB::raw('COALESCE(jumlah, 0) + 1'),
+        ]
+    );
+
 
         return redirect('/home');
+    }
+
+    function HapusKeranjang(Request $request){
+        keranjang::Where('id',$request->id)->delete();
+
+        return redirect()->back();
     }
 
     public function AddJumlah($id,Request $request){

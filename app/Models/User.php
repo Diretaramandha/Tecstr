@@ -19,7 +19,7 @@ class User extends Authenticatable
 
     public function keranjang()
     {
-        return $this->hasMany(keranjang::class, 'id_user');
+        return $this->hasMany(Keranjang::class, 'id_user');
     }
 
     /**

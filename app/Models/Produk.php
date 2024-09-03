@@ -13,11 +13,11 @@ class Produk extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class,'id'); // id di tabel kategori memiliki hubungan dengan id_kategori di tabel produk
+        return $this->belongsTo(User::class,'id_user'); // id di tabel kategori memiliki hubungan dengan id_kategori di tabel produk
     }
 
     public function keranjang()
     {
-        return $this->hasMany(keranjang::class, 'id_produk');
+        return $this->hasMany(Keranjang::class, 'id_produk');
     }
 }
