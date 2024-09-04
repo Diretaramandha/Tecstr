@@ -10,6 +10,7 @@
 <div class="container">
     <form action="/product/upgrade/{{ $produk->id }}" method="post" enctype="multipart/form-data" >
         @csrf
+        
         <div class="container">
             <div class=" d-flex justify-content-center my-5 ">
                 <div class="row shadow py-5 px-4 rounded" style="width: 800px">

@@ -17,9 +17,9 @@ return new class extends Migration
             $table->unsignedBigInteger('id_produk');
             $table->date('tgl_pemesanan');
             $table->string('total_produk');
-            $table->string('subtotal');
+            $table->enum('tipe_pembayaran',['dana','gopay','bni','bca','mandiri']);
             $table->string('total_harga');
-
+            
             $table->foreign('id_users')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreign('id_produk')->references('id')->on('produks')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();

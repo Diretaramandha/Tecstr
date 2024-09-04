@@ -40,7 +40,7 @@ class UserController extends Controller
         return redirect()->back();
     }
 
-    function logout(){
+    public function logout(){
         
         Auth::logout();
 
@@ -61,7 +61,7 @@ class UserController extends Controller
 
     function UpgradeView(){
         $data['profile'] = Auth::user();
-        return view('pembeli.upgrade-user',$data);
+        return view('pembeli.upgrade-profile',$data);
     }
     function UpgradeProfile(Request $request)
     {
@@ -100,13 +100,13 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'no_tlp' => $request->no_tlp,
-            'role' => 'seller',
+            'role' => 'customer',
             'alamat' => $request->alamat,
             'password' => $request->password,
             'foto' => $fileName,
         ]);
 
-        return redirect('/profile');
+        return redirect('/home/profile');
     }
 
     function ViewRegister(){

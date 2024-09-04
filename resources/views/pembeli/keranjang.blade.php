@@ -58,7 +58,11 @@
                         </div>
                     </div>
                     <div class="row mt-1">
-                        <form action="" method="post">
+                        <form action="/keranjang/transaksi" method="post">
+                            @csrf
+                            @foreach($keranjang as $item)
+                                <input type="hidden" name="produk_id[]" value="{{ $item->produk->id }}">
+                            @endforeach
                             <input type="submit" value="Checkout" class="btn btn-danger w-100">
                         </form>
                     </div>

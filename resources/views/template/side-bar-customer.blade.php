@@ -22,20 +22,21 @@
             <div class="collapse navbar-collapse d-flex justify-content-between" id="navbar">
                 <ul class="navbar-nav ">
                     <li class="nav-item fw-bolder ">
-                        <a href="" class="nav-link fw-bold">HOME</a>
+                        <a href="/home" class="nav-link fw-bold">HOME</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle fw-bolder" href="#" role="button" data-bs-toggle="dropdown">CATEGORIES</a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">Laptop</a></li>
-                          <li><a class="dropdown-item" href="#">Set PC</a></li>
-                          <li><a class="dropdown-item" href="#">Prosesor</a></li>
-                          <li><a class="dropdown-item" href="#">Ram</a></li>
-                          <li><a class="dropdown-item" href="#">SSD OR Hardisk</a></li>
+                          <li><a class="dropdown-item" href="#">HP</a></li>
+                          <li><a class="dropdown-item" href="#">PC</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
                         <a href="/home/profile" class="nav-link fw-bold">PROFILE</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/home/purchased" class="nav-link fw-bold">PROUDUCTS PURCHASED</a>
                     </li>
                 </ul>
                 <form action="" method="post" class="d-flex">

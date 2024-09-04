@@ -24,7 +24,7 @@
                 <div class="pt-3" style=>
                     <form action="" method="post">
                         <div class=" d-flex justify-content-between">
-                            <p class=" mt-3">Bio User</p><a href="/profile/{{ $profile->id }}/change" class=" d-flex "><i class="f-2 mt-3 text-secondary bi bi-gear-fill"></i></a>
+                            <p class=" mt-3">Bio User</p><a href="/home/profile/{{ $profile->id }}" class=" d-flex "><i class="f-2 mt-3 text-secondary bi bi-gear-fill"></i></a>
                         </div>
                         <div class="row">
                             <div class=" col-12 form-floating mb-2">

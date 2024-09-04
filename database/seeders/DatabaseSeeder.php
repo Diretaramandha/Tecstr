@@ -38,7 +38,7 @@ class DatabaseSeeder extends Seeder
             'no_tlp' => '085720676261',
             'alamat' => 'jagawaras-Sentral',
             'role' => 'seller',
-            'foto' => '',
+            'foto' => 'ryzen.jpg',
             'email' => 'admin@gmail.com',
             'password' => bcrypt('reta123')
         ]);

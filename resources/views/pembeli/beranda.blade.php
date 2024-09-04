@@ -79,8 +79,8 @@
                 <div class="col-md-12 mb-4">
                   <h3>Product</h3>
                 </div>
-                @foreach ($produk as $item)
-                  <div class="col-md-3 ">
+                @foreach ($produk as  $item)
+                  <div class="col-md-3 mb-4">
                     <div class=" card" style="width: 16rem; height: 380px;">
                       <img src="{{ asset('storage/foto/'.$item->foto) }}" class=" card-img " alt="" height="200px">
                       <p class=" card-title ms-2 fs-4 pt-2 ">{{ $item->produk }}</p>
@@ -90,15 +90,19 @@
                         <p class=" ms-2  ">{{ $item->name }}</p>
                       </div>
                       @endforeach --}}
-                      <div class=" text-end  me-2 mb-2 mt-5">
+                      <div class=" text-end  me-2 mb-2 mt-5 d-flex justify-content-end">
+                        <a href="/home/detail/{{ $item->id }}" class="btn btn-secondary me-1"><i class="bi bi-search"></i></a>
+
+                        <form action="/transaksi/{{ $item->id }}" method="post" class=" me-1">
+                          @csrf
+                          <button type="submit" class="btn btn-success"><i class="bi bi-bag"></i> BUY</button>
+                        </form>
                         <form action="/home/keranjang/{{ $item->id }}" method="post" class="btn btn-primary">
                           @csrf
                           <button type="submit" class=" bg-transparent border-0 text-white">
                             <i class="bi bi-bookmark"></i>
                           </button>
                         </form>
-                        <a href="/home/detail/{{ $item->id }}" class="btn btn-secondary w-25"><i class="bi bi-search"></i></a>
-                        <a href="/home/buy/{{ $item->id }}" class="btn btn-success w-25"><i class="bi bi-bag"></i></a>
                       </div>
                     </div>
                   </div>

@@ -5,16 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\keranjang;
 use App\Models\Produk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class keranjangController extends Controller
 {
     public function ViewKeranjang()
     {
-        $data['keranjang'] = keranjang::with('produk')->get();
+        $user_id = Auth::id(); // Get the ID of the logged-in user
+        $data['keranjang'] = Keranjang::where('id_user', $user_id)
+                                    ->with('produk')
+                                    ->get();
         $data['jumlah'] = $data['keranjang']->count();
         // dd($data['keranjang']);
-        return view('pembeli.keranjang',$data);
+        return view('pembeli.keranjang', $data);
     }
 
     public function CreateKeranjang($id)
@@ -24,9 +28,11 @@ class keranjangController extends Controller
         //     'id_produk' => $id,
         //     'jumlah' => 1,
         // ]);
+        $user = Auth::user()->id;
+        
     keranjang::updateOrInsert(
         [
-            'id_user' => auth()->user()->id,
+            'id_user' => $user,
             'id_produk' => $id,
         ],
         [

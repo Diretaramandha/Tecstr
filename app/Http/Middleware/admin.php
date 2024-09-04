@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class login
+class admin
 {
     /**
      * Handle an incoming request.
@@ -16,7 +16,7 @@ class login
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->role === "customer") {
+        if (Auth::user()->role === "seller") {
             return $next($request);
         }
         return redirect()->back();
