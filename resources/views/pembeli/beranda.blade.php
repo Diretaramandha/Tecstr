@@ -1,5 +1,6 @@
 @extends('template.side-bar-customer')
 @section('content')
+@include('sweetalert::alert')
     <div class="container pt-5">
       <div class="container">
         <div class="row">

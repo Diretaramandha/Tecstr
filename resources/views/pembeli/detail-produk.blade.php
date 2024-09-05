@@ -1,5 +1,6 @@
 @extends('template.side-bar-customer')
 @section('content')
+@include('sweetalert::alert')
    <div class="container d-flex justify-content-center mt-5">
         <div class="row shadow mt-5 p-4 w-100">
             <div class="col-12">

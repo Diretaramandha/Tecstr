@@ -1,5 +1,6 @@
 @extends('template.side-bar-seller')
 @section('content')
+@include('sweetalert::alert')
 <div class="container-fluid d-flex flex-wrap align-items-center justify-content-between border-bottom ">
     <div class="">
         <h1>Change Profile</h1>
@@ -19,8 +20,7 @@
         </div>
         <div class="" style="width: 40%">
             <form action="" method="post">
-                <div class=" d-flex justify-content-between">
-                    <p class=" mt-3">Bio User</p><a href="/profile/change" class=" d-flex "><i class="f-2 mt-3 text-secondary bi bi-gear-fill"></i></a>
+                <div class=" d-flex justify-content-between mt-3">
                 </div>
                 <div class="row">
                     <div class=" col-12 form-floating mb-2">

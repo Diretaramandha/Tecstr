@@ -7,6 +7,7 @@ use App\Models\Produk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class keranjangController extends Controller
 {
@@ -40,19 +41,19 @@ class keranjangController extends Controller
         ]
     );
 
-
+        Alert::success('Berhasil', 'Data produk telah disimpan di keranjang');
         return redirect('/home');
     }
 
     function HapusKeranjang(Request $request){
         keranjang::Where('id',$request->id)->delete();
-
+        Alert::success('Berhasil', 'Data produk telah berhasil dihapus');
         return redirect()->back();
     }
 
     public function AddJumlah($id,Request $request){
         $keranjang = keranjang::Where('id',$id)->first();
-
+        Alert::success('Berhasil', 'Jumlah Produk Berhasil di tambahkan');
         $keranjang->update([
             'jumlah' => $request->jumlah
         ]);

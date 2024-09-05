@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\chekoutController;
 use App\Http\Controllers\keranjangController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\transaksiController;
@@ -40,16 +41,19 @@ Route::middleware(['login'])->group(function(){
     Route::post('/home/keranjang/{id}',[keranjangController::class,'CreateKeranjang']);
     Route::get('/home/basket/hapus/{id}', [KeranjangController::class, 'HapusKeranjang']);
     Route::post('/home/keranjang/jumlah/{id}',[keranjangController::class,'AddJumlah']);
+    // Route::post('/keranjang/transaksi',[transaksiController::class,'VKTransaksi']);
+    // Route::post('/keranjang/transaksi/post',[chekoutController::class,'KeranjangTransaksi']);
     
     Route::get('/home/profile',[UserController::class,'HomeProfile']);
     Route::get('/home/profile/{id}',[UserController::class,'UpgradeView']);
     Route::post('/home/profile/{id}',[UserController::class,'UpgradeProfile']);
     
     Route::get('/transaksi',[transaksiController::class,'ViewTransaksi']);
-    Route::post('/transaksi/post',[transaksiController::class,'ViewTransaksi']);
-    Route::post('/transaksi/menambah/produk/{id}',[transaksiController::class,'ViewTransaksi']);
     Route::post('/transaksi/{id}',[transaksiController::class,'CreateTransaksi']);
+    Route::post('/transaksi/post/{id}',[transaksiController::class,'UpdateTransaksi']);
+    Route::post('/transaksi/menambah/produk/{id}',[transaksiController::class,'TambahJumlah']);
     
+    Route::get('/home/purchased',[transaksiController::class,'ViewHistory']);
 });
 
 Route::get('/logout',[UserController::class,'logout']);
@@ -64,7 +68,6 @@ Route::middleware(['admin'])->group(function(){
     Route::get('/product',[ProdukController::class,'ViewProduk']);
     Route::get('/product/create',[ProdukController::class,'ViewCreate']);
     Route::post('/product/create',[ProdukController::class,'ProdukCreate']);
-    
     Route::get('/product/upgrade/{id}',[ProdukController::class,'ViewUpgrade']);
     Route::post('/product/upgrade/{id}',[ProdukController::class,'ProdukUpgrade']);
     

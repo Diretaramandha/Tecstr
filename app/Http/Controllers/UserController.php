@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class UserController extends Controller
 {   
@@ -31,13 +32,14 @@ class UserController extends Controller
         if (Auth::attempt($validasi)) {
             if (Auth::user()->role == 'seller') {
                 return redirect('/admin');
-                Session::flash('pesanlogin','Selamat datang, ');
+                Alert::success('Wellcome to Tecstr','Wellcome');
             }
-
+            
             return redirect('/home');
-            Session::flash('pesanlogin','Selamat datang, ');
+            Alert::success('Wellcome to Tecstr','wellcome');
         }
         return redirect()->back();
+        Alert::error('Error','Email or Password is Uncorrect');
     }
 
     public function logout(){
@@ -105,7 +107,7 @@ class UserController extends Controller
             'password' => $request->password,
             'foto' => $fileName,
         ]);
-
+        Alert::success('Berhasil','Data User Sudah Berubah');
         return redirect('/home/profile');
     }
 
@@ -173,7 +175,8 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            // Handle validation error
+            Alert::error('Gagal mengubah user', 'Data user tidak valid');
+            // return redirect()->back()->withErrors($validator)->withInput();
         }
 
         $user = User::Where('id', $request->id)->first();
@@ -204,6 +207,7 @@ class UserController extends Controller
             'foto' => $fileName,
         ]);
 
+        Alert::success('User berhasil ubah', 'Data user telah berhasil disimpan');
         return redirect('/profile');
     }
 }

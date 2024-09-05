@@ -1,5 +1,6 @@
 @extends('template.side-bar-customer')
 @section('content')
+@include('sweetalert::alert')
 <div class="container">
     <form action="" method="POST" enctype="multipart/form-data" class="d-flex flex-column align-items-center mt-5 shadow p-5 rounded">
         @csrf

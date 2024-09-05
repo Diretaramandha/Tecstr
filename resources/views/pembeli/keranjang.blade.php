@@ -1,5 +1,6 @@
 @extends('template.side-bar-customer')
 @section('content')
+@include('sweetalert::alert')
     <div class="container mb-5 mt-5">
         <div class="row shadow">
             <div class=" d-flex justify-content-between mt-4">
@@ -21,13 +22,17 @@
                             </div>
                         </div>
                         <div class="col-4">
-                            <div class="d-flex">
-                                <a href="/home/basket/hapus/{{ $item->id }}" class="btn btn-danger me-2"><i class="bi bi-trash"></i></a>
+                            <div class="d-flex flex-column">
                                 <form action="/home/keranjang/jumlah/{{ $item->id }}" method="post" class="d-flex">
+                                    <a href="/home/basket/hapus/{{ $item->id }}" class="btn btn-danger me-2"><i class="bi bi-trash"></i></a>
                                     @csrf
                                     <input type="number" name="jumlah" id="" value="{{ $item->jumlah }}" class=" form-control me-1" style="width: 30%">
                                     <input type="submit" value="add" class="btn btn-primary">
                                     {{-- <a href="/keranjang/hapus/{{ $item->id }}" class="btn btn-danger me-2"><i class="bi bi-trash"></i></a> --}}
+                                </form>
+                                <form action="/transaksi/{{ $item->id }}" method="post" class=" mt-5">
+                                    @csrf
+                                    <input type="submit" value="BUY NOW" class="btn btn-success w-100">
                                 </form>
                             </div>
                         </div>
@@ -57,15 +62,7 @@
                             <p>${{ $keranjang->sum(function($item) { return $item->produk->harga * $item->jumlah; }) }}</p>
                         </div>
                     </div>
-                    <div class="row mt-1">
-                        <form action="/keranjang/transaksi" method="post">
-                            @csrf
-                            @foreach($keranjang as $item)
-                                <input type="hidden" name="produk_id[]" value="{{ $item->produk->id }}">
-                            @endforeach
-                            <input type="submit" value="Checkout" class="btn btn-danger w-100">
-                        </form>
-                    </div>
+                    
                 </div>
             </div>
         </div>

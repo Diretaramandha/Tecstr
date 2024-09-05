@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ProdukController extends Controller
 {
@@ -26,7 +27,7 @@ class ProdukController extends Controller
     }
     function ProdukCreate(Request $request){
 
-        Validator::make($request->all(),[
+        $validator = Validator::make($request->all(),[
             'id_user' =>['required'],
             'produk' =>['required'],
             'deskripsi' =>['required'],
@@ -36,6 +37,13 @@ class ProdukController extends Controller
             'foto' =>['required'],
             // 'produk_terjual' =>'[]',
         ]);
+
+        if ($validator->fails()) {
+            // Add Sweet Alert for failure
+            Alert::error('Gagal membuat produk', 'Data produk tidak valid');
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+    
         
         $fileName = '';
         if ($request->file('foto')) {
@@ -54,7 +62,7 @@ class ProdukController extends Controller
             'foto' => $fileName,
             'produk_terjual'=>0,
         ]);
-
+        Alert::success('Produk berhasil dibuat', 'Data produk telah berhasil disimpan');
         return redirect('/product');
     }
     function ViewUpgrade($id){
@@ -64,7 +72,7 @@ class ProdukController extends Controller
 
     function ProdukUpgrade(Request $request, $id){
 
-        Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'id_user' => ['required'],
             'produk' => ['required'],
             'deskripsi' => ['required'],
@@ -73,6 +81,12 @@ class ProdukController extends Controller
             'stok' => ['required'],
             // 'foto' => ['required'],
         ]);
+
+        if ($validator->fails()) {
+            // Add Sweet Alert for failure
+            Alert::error('Gagal membuat produk', 'Data produk tidak valid');
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         $produk = Produk::where('id', $id)->with('user')->first();
 
@@ -104,13 +118,13 @@ class ProdukController extends Controller
             'foto' => $fileName,
             'produk_terjual' => 0,
         ]);
-
+        Alert::success('Produk berhasil ubah', 'Data produk telah berhasil disimpan');
         return redirect('/product');
     }
 
     function ProdukDelete(Request $request){
        Produk::Where('id',$request->id)->delete();
-
+       Alert::success('Produk berhasil dihapus', 'Data produk telah berhasil didelete');
        return redirect('/product');
     }
 

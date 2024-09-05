@@ -19,9 +19,10 @@ return new class extends Migration
             $table->string('total_produk');
             $table->enum('tipe_pembayaran',['dana','gopay','bni','bca','mandiri']);
             $table->string('total_harga');
-            
+
             $table->foreign('id_users')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreign('id_produk')->references('id')->on('produks')->cascadeOnDelete()->cascadeOnUpdate();
+
             $table->timestamps();
         });
     }

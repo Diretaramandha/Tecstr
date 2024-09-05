@@ -1,5 +1,6 @@
 @extends('template.side-bar-seller')
 @section('content')
+@include('sweetalert::alert')
     <div class="container-fluid">
         <div class="d-flex flex-wrap align-items-center justify-content-between border-bottom mb-3 ">
             <div class="">
